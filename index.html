@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>10連ガチャ</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .button-container {
+            margin-top: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .result {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+            max-width: 90vw;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .result img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        .counter {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .difficulty-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>10連ガチャ</h1>
+    <div class="result-container">
+        <div>
+            <div class="difficulty-title">初級</div>
+            <button onclick="gacha('result-easy', 54, 'counter-easy')">ガチャを回す</button>
+            <div class="counter" id="counter-easy">引いた回数: 0</div>
+            <div class="result" id="result-easy"></div>
+        </div>
+        <div>
+            <div class="difficulty-title">中級</div>
+            <button onclick="gacha('result-medium', 5454, 'counter-medium')">ガチャを回す</button>
+            <div class="counter" id="counter-medium">引いた回数: 0</div>
+            <div class="result" id="result-medium"></div>
+        </div>
+        <div>
+            <div class="difficulty-title">上級</div>
+            <button onclick="gacha('result-hard', 540000, 'counter-hard')">ガチャを回す</button>
+            <div class="counter" id="counter-hard">引いた回数: 0</div>
+            <div class="result" id="result-hard"></div>
+        </div>
+    </div>
+
+    <script>
+        let drawCounts = {
+            "counter-easy": 0,
+            "counter-medium": 0,
+            "counter-hard": 0
+        };
+
+        function gacha(resultId, rate, counterId) {
+            drawCounts[counterId]++;
+            document.getElementById(counterId).textContent = `引いた回数: ${drawCounts[counterId]}`;
+            
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = ""; // 結果をリセット
+
+            for (let i = 0; i < 10; i++) {
+                let isRare = Math.random() < (1 / rate); // 難易度に応じたレア確率
+                let img = document.createElement("img");
+                img.src = isRare ? "ずのー!!.png" : "ずのー.png";
+                img.alt = isRare ? "レア" : "ノーマル";
+                resultDiv.appendChild(img);
+            }
+        }
+    </script>
+
+</body>
+</html>
